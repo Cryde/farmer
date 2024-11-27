@@ -1,0 +1,60 @@
+
+services:
+  webserver:
+    image: nginx:stable
+    container_name: webserver
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:8080:8080"
+    restart: always
+    volumes:
+      - $PWD:/var/www/farmer/
+      - ./volumes/nginx/conf:/etc/nginx/conf.d
+    networks:
+      farmer-network:
+        ipv4_address: 10.100.200.2
+
+  php-fpm:
+    build: .docker/fpm
+    container_name: php-fpm-farmer
+    working_dir: /var/www/farmer
+    volumes:
+      - ./volumes/php-fpm:/var/log/php:cached
+      - $PWD:/var/www/farmer:cached
+      - ./.docker/fpm/99-custom.ini:/usr/local/etc/php/conf.d/99-custom.ini
+    networks:
+      farmer-network:
+        ipv4_address: 10.100.200.3
+
+  php-cli:
+    build: .docker/cli-php
+    container_name: php-cli
+    working_dir: /var/www
+    command: /bin/true
+    networks:
+      farmer-network:
+        ipv4_address: 10.100.200.4
+    volumes:
+      - .:/var/www:cached
+
+  postgres:
+    image: postgres:17.1-alpine3.20
+    volumes:
+      - "./volumes/postgres:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=farmer_user
+      - POSTGRES_PASSWORD=farmer_password
+      - POSTGRES_DB=farmer_db
+    ports:
+      - "5432:5432"
+    networks:
+      farmer-network:
+        ipv4_address: 10.100.200.6
+
+networks:
+  farmer-network:
+    name: farmer
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.100.200.0/28

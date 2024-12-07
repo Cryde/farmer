@@ -1,7 +1,21 @@
 api_platform:
-    title: Hello API Platform
+    title: Farmer API
     version: 1.0.0
+    show_webby: false
+    formats:
+        jsonld: [ 'application/ld+json' ]
     defaults:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+    openapi:
+        swagger_ui_extra_configuration:
+            docExpansion: none
+            filter: true
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+    resource_class_directories:
+            - '%kernel.project_dir%/src/Model/Api'

@@ -37,6 +37,17 @@ services:
     volumes:
       - .:/var/www:cached
 
+  php-cli-cov:
+    build: .docker/cli-php-cov
+    container_name: php-cli-cov
+    working_dir: /var/www
+    command: /bin/true
+    networks:
+      farmer-network:
+        ipv4_address: 10.100.200.5
+    volumes:
+      - .:/var/www:cached
+
   postgres:
     image: postgres:17.1-alpine3.20
     volumes:

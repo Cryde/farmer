@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Tests\Api\Security;
+
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Tests\Factory\Player\FarmerFactory;
 use App\Tests\Factory\Security\AccessTokenFactory;

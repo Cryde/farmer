@@ -3,7 +3,7 @@
 namespace App\Tests\Factory\Security;
 
 use App\Entity\Security\AccessToken;
-use App\Factory\Player\FarmerFactory;
+use App\Tests\Factory\Player\FarmerFactory;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**

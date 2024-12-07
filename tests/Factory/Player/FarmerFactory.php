@@ -15,7 +15,7 @@ final class FarmerFactory extends PersistentProxyObjectFactory
         return Farmer::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'roles'    => [],

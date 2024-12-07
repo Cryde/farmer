@@ -16,17 +16,17 @@ class AccessToken
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDatetime = null;
+    private \DateTimeInterface $creationDatetime;
 
     #[ORM\Column(length: 255)]
-    private ?string $token = null;
+    private string $token;
 
     #[ORM\ManyToOne] // ManyToOne because later we could have multiple worlds (and we would have one token per world per player)
     #[ORM\JoinColumn(nullable: false)]
-    private ?Farmer $relatedFarmer = null;
+    private Farmer $relatedFarmer;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $expirationDatetime = null;
+    private \DateTimeInterface $expirationDatetime;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastUsageDatetime = null;
@@ -36,12 +36,12 @@ class AccessToken
         $this->creationDatetime = new \DateTime();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getCreationDatetime(): ?\DateTimeInterface
+    public function getCreationDatetime(): \DateTimeInterface
     {
         return $this->creationDatetime;
     }
@@ -53,19 +53,19 @@ class AccessToken
         return $this;
     }
 
-    public function getRelatedFarmer(): ?Farmer
+    public function getRelatedFarmer(): Farmer
     {
         return $this->relatedFarmer;
     }
 
-    public function setRelatedFarmer(?Farmer $relatedFarmer): static
+    public function setRelatedFarmer(Farmer $relatedFarmer): static
     {
         $this->relatedFarmer = $relatedFarmer;
 
         return $this;
     }
 
-    public function getExpirationDatetime(): ?\DateTimeInterface
+    public function getExpirationDatetime(): \DateTimeInterface
     {
         return $this->expirationDatetime;
     }
@@ -89,7 +89,7 @@ class AccessToken
         return $this;
     }
 
-    public function getToken(): ?string
+    public function getToken(): string
     {
         return $this->token;
     }
@@ -103,6 +103,6 @@ class AccessToken
 
     public function isValid(): bool
     {
-        return $this->getRelatedFarmer() !== null; // todo expiration datetime
+        return $this->expirationDatetime > new \DateTime();
     }
 }

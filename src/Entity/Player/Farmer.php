@@ -14,10 +14,10 @@ class Farmer implements UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180)]
-    private ?string $username = null;
+    private string $username;
 
     /**
      * @var list<string> The user roles
@@ -26,19 +26,19 @@ class Farmer implements UserInterface
     private array $roles = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDatetime = null;
+    private \DateTimeInterface $creationDatetime;
 
     public function __construct()
     {
         $this->creationDatetime = new \DateTime();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -93,7 +93,7 @@ class Farmer implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getCreationDatetime(): ?\DateTimeInterface
+    public function getCreationDatetime(): \DateTimeInterface
     {
         return $this->creationDatetime;
     }

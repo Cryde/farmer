@@ -66,6 +66,11 @@ jobs:
               run: |
                   bin/console about
             ## —— Static analysis ✨ —————————————————————————————————————————————————
+            - name: PHPStan Static Analysis
+              uses: php-actions/phpstan@v3
+              with:
+                  memory_limit: 500M
+                  php_version: ${{ matrix.php-versions }}
 
             - name: Create test database
               run: |

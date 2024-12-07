@@ -16,7 +16,7 @@ final class AccessTokenFactory extends PersistentProxyObjectFactory
         return AccessToken::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'expirationDatetime' => new \DateTime('+ 1 year'),

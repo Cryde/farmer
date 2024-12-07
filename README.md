@@ -2,6 +2,10 @@
 
 Farmer API game
 
+[![codecov](https://codecov.io/gh/Cryde/farmer/graphs/tree.svg?token=G5IQXFBPV3)](https://codecov.io/gh/Cryde/farmer)
+
+[![codecov](https://codecov.io/gh/Cryde/farmer/graph/badge.svg?token=G5IQXFBPV3)](https://codecov.io/gh/Cryde/farmer)
+
 
 ### Installing
 

@@ -11,8 +11,6 @@ class RegisterApiTest extends ApiTestCase
 {
     use ResetDatabase, Factories;
 
-    // Todo : test username with special char (add those in regex!)
-
     public function test_register(): void
     {
         static::createClient()->request('POST', '/api/farmer/register', [
@@ -85,6 +83,34 @@ class RegisterApiTest extends ApiTestCase
                 [
                     "code"         => "9ff3fdc4-b214-49db-8718-39c315e33d45",
                     "message"      => "This value is too short. It should have 3 characters or more.",
+                    "propertyPath" => "username",
+                ],
+            ],
+        ]);
+    }
+
+    public function test_register_with_wrong_username(): void
+    {
+        static::createClient()->request('POST', '/api/farmer/register', [
+            'json' => [
+                'username' => 'Howdie__hello'
+            ],
+            'headers' => ['content-type' => 'application/ld+json']
+        ]);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertJsonEquals([
+            "@context"    => "/api/contexts/ConstraintViolationList",
+            "@id"         => "/api/validation_errors/ba537051-1e30-41a2-a416-fe5491bcf354",
+            "@type"       => "ConstraintViolationList",
+            "description" => "username: This username \"Howdie__hello\" is not valid.",
+            "detail"      => "username: This username \"Howdie__hello\" is not valid.",
+            "status"      => 422,
+            "title"       => "An error occurred",
+            "type"        => "/validation_errors/ba537051-1e30-41a2-a416-fe5491bcf354",
+            "violations"  => [
+                [
+                    "code"         => 'ba537051-1e30-41a2-a416-fe5491bcf354',
+                    "message"      => "This username \"Howdie__hello\" is not valid.",
                     "propertyPath" => "username",
                 ],
             ],

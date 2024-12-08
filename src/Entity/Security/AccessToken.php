@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccessTokenRepository::class)]
+#[ORM\Index(name: 'token_index', fields: ['token'])]
 class AccessToken
 {
     #[ORM\Id]

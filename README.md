@@ -44,3 +44,31 @@ Add `farmer.local` to your `/etc/hosts`
 ```
 10.100.200.2 	farmer.local
 ```
+
+
+## Testing 
+
+### PhpUnit 
+
+You can simply launch tests like this : 
+```
+docker compose run --rm php-cli-cov vendor/bin/phpunit
+```
+
+### Infection 
+
+#### Download 
+
+Download Infection as .phar and put it in the root dir.
+
+First we need to launch test with a directory where Infection can look like 
+
+```
+docker compose run --rm php-cli-cov vendor/bin/phpunit --coverage-xml=build/coverage/coverage-xml --log-junit=build/coverage/junit.xml
+```
+
+Then we can launch infection 
+``` 
+docker compose run --rm php-cli-cov ./infection.phar --threads=4 --coverage=build/coverage
+```
+You can add `--show-mutations` to know what infection did to "break" tests

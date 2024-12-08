@@ -3,6 +3,7 @@
 namespace Api\Register;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Repository\Security\AccessTokenRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -11,8 +12,20 @@ class RegisterApiTest extends ApiTestCase
 {
     use ResetDatabase, Factories;
 
+    private AccessTokenRepository $accessTokenRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->accessTokenRepository = static::getContainer()->get(AccessTokenRepository::class);
+    }
+
     public function test_register(): void
     {
+
+        // pre-test
+        $this->assertCount(0, $this->accessTokenRepository->findAll());
+
         static::createClient()->request('POST', '/api/farmer/register', [
             'json' => [
                 'username' => 'Howdie'
@@ -31,10 +44,14 @@ class RegisterApiTest extends ApiTestCase
             ],
             "token" => "dummy-access-token",
         ]);
+        $this->assertCount(1, $this->accessTokenRepository->findAll());
     }
 
     public function test_register_with_too_long_username(): void
     {
+        // pre-test
+        $this->assertCount(0, $this->accessTokenRepository->findAll());
+
         static::createClient()->request('POST', '/api/farmer/register', [
             'json' => [
                 'username' => 'Toolongusernamedamnitslong'
@@ -59,6 +76,7 @@ class RegisterApiTest extends ApiTestCase
                 ],
             ],
         ]);
+        $this->assertCount(0, $this->accessTokenRepository->findAll());
     }
 
     public function test_register_with_too_small_username(): void

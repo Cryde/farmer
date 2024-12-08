@@ -29,9 +29,6 @@ class AccessToken
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $expirationDatetime;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $lastUsageDatetime = null;
-
     public function __construct()
     {
         $this->creationDatetime = new \DateTime();
@@ -74,18 +71,6 @@ class AccessToken
     public function setExpirationDatetime(\DateTimeInterface $expirationDatetime): static
     {
         $this->expirationDatetime = $expirationDatetime;
-
-        return $this;
-    }
-
-    public function getLastUsageDatetime(): ?\DateTimeInterface
-    {
-        return $this->lastUsageDatetime;
-    }
-
-    public function setLastUsageDatetime(?\DateTimeInterface $lastUsageDatetime): static
-    {
-        $this->lastUsageDatetime = $lastUsageDatetime;
 
         return $this;
     }

@@ -2,9 +2,6 @@
 
 namespace App\ApiResource\Player;
 
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use App\Entity\Player\Farmer;

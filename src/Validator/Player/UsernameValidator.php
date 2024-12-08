@@ -12,9 +12,11 @@ class UsernameValidator extends ConstraintValidator
     {
     }
 
+    /**
+     * @param Username $constraint
+     */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        /* @var Username $constraint */
         if (!$this->usernameChecker->isValid($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)

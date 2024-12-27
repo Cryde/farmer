@@ -20,10 +20,14 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter: ~
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Contract\Generator\AccessTokenGeneratorInterface: '@App\Service\Generator\AccessTokenGenerator'
+    App\Contract\Generator\ShortIdGeneratorInterface: '@App\Service\Generator\ShortIdGenerator'
 
 when@test:
     services:
         App\Contract\Generator\AccessTokenGeneratorInterface: '@App\Service\Generator\DummyAccessTokenGenerator'
+        App\Contract\Generator\ShortIdGeneratorInterface: '@App\Service\Generator\DummyShortIdGenerator'

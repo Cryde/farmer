@@ -19,3 +19,4 @@ api_platform:
                 type: header
     resource_class_directories:
             - '%kernel.project_dir%/src/Model/Api'
+    name_converter: 'Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter'

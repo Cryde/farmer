@@ -4,10 +4,17 @@ namespace App\Procedure\Player;
 
 use App\ApiResource\Player\Register;
 use App\Builder\Api\Player\RegisterBuilder;
+use App\Builder\Entity\Farm\FarmEntityBuilder;
+use App\Builder\Entity\Farm\FarmExtensionEntityBuilder;
 use App\Builder\Entity\Farmer\FarmerEntityBuilder;
 use App\Builder\Entity\Security\AccessTokenBuilder;
 use App\Contract\Generator\AccessTokenGeneratorInterface;
+use App\Contract\Generator\ShortIdGeneratorInterface;
+use App\Entity\Farm\Farm;
+use App\Enum\Extension\ExtensionType;
 use App\Model\Api\Register\Register as RegisterApi;
+use App\Repository\Extension\ExtensionRepository;
+use App\Service\Generator\FarmNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 
 readonly class RegistrationProcedure
@@ -17,19 +24,50 @@ readonly class RegistrationProcedure
         private FarmerEntityBuilder    $farmerEntityBuilder,
         private AccessTokenBuilder     $accessTokenBuilder,
         private EntityManagerInterface $entityManager,
-        private RegisterBuilder        $registerBuilder
+        private RegisterBuilder        $registerBuilder,
+        private FarmEntityBuilder $farmEntityBuilder,
+        private FarmNameGenerator $farmNameGenerator,
+        private ExtensionRepository $extensionRepository,
+        private FarmExtensionEntityBuilder $farmExtensionEntityBuilder,
+        private ShortIdGeneratorInterface $shortIdGenerator
     ) {
     }
 
     public function register(Register $registerModel): RegisterApi
     {
-        $token = $this->accessTokenGenerator->generate();
+        // farmer
         $farmer = $this->farmerEntityBuilder->build(mb_strtoupper($registerModel->username));
         $this->entityManager->persist($farmer);
+
+        // access token
+        $token = $this->accessTokenGenerator->generate();
         $accessToken = $this->accessTokenBuilder->build($farmer, $token, new \DateTime('+ 2 months')); // todo set expiration related to a reset world
         $this->entityManager->persist($accessToken);
+
+        // farm
+        $farm = $this->farmEntityBuilder->build($farmer, $this->farmNameGenerator->generateFarmName($registerModel->username));
+        $this->entityManager->persist($farm);
+
+        $this->addBasicFarmExtension($farm);
+
         $this->entityManager->flush();
 
         return $this->registerBuilder->build($farmer, $token);
+    }
+
+
+    private function addBasicFarmExtension(Farm $farm): void
+    {
+        foreach (ExtensionType::basicExtension() as $extensionEnum) {
+            if ($extension = $this->extensionRepository->findOneBy(['type' => $extensionEnum])) {
+                $farmExtension = $this->farmExtensionEntityBuilder->build(
+                    $farm,
+                    $extension,
+                    1,
+                    $this->shortIdGenerator->generateShortId()
+                );
+                $this->entityManager->persist($farmExtension);
+            }
+        }
     }
 }

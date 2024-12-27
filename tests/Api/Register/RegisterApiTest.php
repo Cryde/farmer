@@ -3,7 +3,10 @@
 namespace Api\Register;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Repository\Extension\ExtensionRepository;
+use App\Repository\Farm\FarmExtensionRepository;
 use App\Repository\Security\AccessTokenRepository;
+use App\Tests\Story\ExtensionsStory;
 use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -13,18 +16,24 @@ class RegisterApiTest extends ApiTestCase
     use ResetDatabase, Factories;
 
     private AccessTokenRepository $accessTokenRepository;
+    private ExtensionRepository $extensionRepository;
+    private FarmExtensionRepository $farmExtensionRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->accessTokenRepository = static::getContainer()->get(AccessTokenRepository::class);
+        $this->extensionRepository = static::getContainer()->get(ExtensionRepository::class);
+        $this->farmExtensionRepository = static::getContainer()->get(FarmExtensionRepository::class);
     }
 
     public function test_register(): void
     {
-
+        ExtensionsStory::load();
         // pre-test
         $this->assertCount(0, $this->accessTokenRepository->findAll());
+        $this->assertCount(5, $this->extensionRepository->findAll());
+        $this->assertCount(0, $this->farmExtensionRepository->findAll());
 
         static::createClient()->request('POST', '/api/farmer/register', [
             'json' => [
@@ -42,9 +51,23 @@ class RegisterApiTest extends ApiTestCase
                 "@type"    => "Farmer",
                 "username" => "HOWDIE",
             ],
+            "farms" => [
+                [
+                    "@id" => "/api/farm/Howdie-FARM-1",
+                    "@type" => "Farm",
+                    "energy" => 0,
+                    "extension_count" => 4,
+                    "money" => 0,
+                    "name" => "Howdie-FARM-1",
+                    "size" => 0,
+                    "water" => 0
+                ]
+            ],
             "token" => "dummy-access-token",
         ]);
         $this->assertCount(1, $this->accessTokenRepository->findAll());
+        $this->assertCount(5, $this->extensionRepository->findAll());
+        $this->assertCount(4, $this->farmExtensionRepository->findAll());
     }
 
     public function test_register_with_too_long_username(): void

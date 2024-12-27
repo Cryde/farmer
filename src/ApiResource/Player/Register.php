@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Post(
     uriTemplate: 'farmer/register',
     openapi: new Operation(tags: ['Farmer']),
-    normalizationContext: ['groups' => [Register::REGISTER]],
+    normalizationContext: ['groups' => [Register::REGISTER, 'Default']],
     output: RegisterOutput::class,
     processor: RegisterProcessor::class,
 )]

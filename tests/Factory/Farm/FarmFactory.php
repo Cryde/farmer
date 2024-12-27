@@ -29,7 +29,7 @@ final class FarmFactory extends PersistentProxyObjectFactory
      *
      * @todo add your default values here
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'creationDatetime' => self::faker()->dateTime(),

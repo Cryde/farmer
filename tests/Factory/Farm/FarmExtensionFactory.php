@@ -10,26 +10,12 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class FarmExtensionFactory extends PersistentProxyObjectFactory
 {
-    /**
-     * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
-     *
-     * @todo inject services if required
-     */
-    public function __construct()
-    {
-    }
-
     public static function class(): string
     {
         return FarmExtension::class;
     }
 
-    /**
-     * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
-     *
-     * @todo add your default values here
-     */
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'creationDatetime' => self::faker()->dateTime(),

@@ -27,7 +27,7 @@ class FarmExtension
     private Extension $extension;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDatetime;
+    private \DateTimeInterface $creationDatetime;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private int $level;

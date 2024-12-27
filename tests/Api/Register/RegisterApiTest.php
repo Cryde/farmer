@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Register;
+namespace App\Tests\Api\Register;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Repository\Extension\ExtensionRepository;

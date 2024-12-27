@@ -9,10 +9,10 @@ final class ExtensionsStory extends Story
 {
     public function build(): void
     {
-        ExtensionFactory::new()->asWarehouse()->create();
-        ExtensionFactory::new()->asPlot()->create();
-        ExtensionFactory::new()->asSolarPanel()->create();
-        ExtensionFactory::new()->asRobotCharger()->create();
-        ExtensionFactory::new()->asTransformer()->create();
+        $this->addState('warehouse', ExtensionFactory::new()->asWarehouse()->create());
+        $this->addState('plot', ExtensionFactory::new()->asPlot()->create());
+        $this->addState('solarpanel', ExtensionFactory::new()->asSolarPanel()->create());
+        $this->addState('robotcharger', ExtensionFactory::new()->asRobotCharger()->create());
+        $this->addState('transformer', ExtensionFactory::new()->asTransformer()->create());
     }
 }

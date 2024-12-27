@@ -44,6 +44,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   extensions: mbstring, ctype, intl, pdo, pdo_pgsql, pgsql, filter, json, bz2, zip, bcmath, opcache
+                  coverage: pcov
               env:
                   update: true
 
@@ -83,17 +84,9 @@ jobs:
                   APP_ENV: test
                   DATABASE_URL: 'postgresql://farmer_user:farmer_password@localhost:5432/farmer_db_test?serverVersion=17&charset=utf8'
 
-            - name: PHPUnit Tests
-              uses: php-actions/phpunit@v4
-              with:
-                  memory_limit: 400M
-                  version: 11.4
-                  test_suffix: Test.php
-                  php_extensions: xdebug pdo_pgsql pgsql intl json
-                  php_version: ${{ matrix.php-versions }}
-                  args: tests --coverage-clover ./coverage.xml
+            - name: Run tests and collect coverage
+              run: vendor/bin/phpunit --coverage-clover ./coverage.xml
               env:
-                  XDEBUG_MODE: coverage
                   APP_ENV: test
                   DATABASE_URL: 'postgresql://farmer_user:farmer_password@localhost:5432/farmer_db_test?serverVersion=17&charset=utf8'
 

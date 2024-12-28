@@ -26,13 +26,13 @@ final class ExtensionFactory extends PersistentProxyObjectFactory
         ]);
     }
 
-    public function asPlot(): self
+    public function asField(): self
     {
         return $this->with([
-            'description' => 'A little plot where you can plan seed',
+            'description' => 'A little field where you can plan seed',
             'isUpdatable' => true,
-            'name' => 'Plot',
-            'type' => ExtensionType::Plot,
+            'name' => 'Field',
+            'type' => ExtensionType::Field,
         ]);
     }
 

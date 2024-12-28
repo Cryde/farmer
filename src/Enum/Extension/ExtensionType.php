@@ -4,7 +4,7 @@ namespace App\Enum\Extension;
 enum ExtensionType: string
 {
     case Warehouse = 'WAREHOUSE';
-    case Plot = 'PLOT';
+    case Field = 'FIELD';
     case RobotCharger = 'SOLARPANEL';
     case SolarPanel = 'ROBOTCHARGER';
     case Transformer = 'TRANSFORMER';
@@ -13,7 +13,7 @@ enum ExtensionType: string
     {
         return [
             self::Warehouse,
-            self::Plot,
+            self::Field,
             self::RobotCharger,
             self::SolarPanel,
         ];

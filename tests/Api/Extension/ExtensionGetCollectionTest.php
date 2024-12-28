@@ -38,12 +38,12 @@ class ExtensionGetCollectionTest extends ApiTestCase
                     "name"         => "Warehouse",
                 ],
                 [
-                    "@id"          => "/api/extensions/PLOT",
+                    "@id"          => "/api/extensions/FIELD",
                     "@type"        => "Extension",
-                    "description"  => "A little plot where you can plan seed",
-                    "id"           => "PLOT",
+                    "description"  => "A little field where you can plan seed",
+                    "id"           => "FIELD",
                     "is_updatable" => true,
-                    "name"         => "Plot",
+                    "name"         => "Field",
                 ],
                 [
                     "@id"          => "/api/extensions/ROBOTCHARGER",

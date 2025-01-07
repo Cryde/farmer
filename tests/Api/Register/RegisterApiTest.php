@@ -5,6 +5,7 @@ namespace App\Tests\Api\Register;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Repository\Extension\ExtensionRepository;
 use App\Repository\Farm\FarmExtensionRepository;
+use App\Repository\Farm\FarmTransactionRepository;
 use App\Repository\Security\AccessTokenRepository;
 use App\Tests\Story\ExtensionsStory;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ class RegisterApiTest extends ApiTestCase
     private AccessTokenRepository $accessTokenRepository;
     private ExtensionRepository $extensionRepository;
     private FarmExtensionRepository $farmExtensionRepository;
+    private FarmTransactionRepository $farmTransactionRepository;
 
     protected function setUp(): void
     {
@@ -25,6 +27,7 @@ class RegisterApiTest extends ApiTestCase
         $this->accessTokenRepository = static::getContainer()->get(AccessTokenRepository::class);
         $this->extensionRepository = static::getContainer()->get(ExtensionRepository::class);
         $this->farmExtensionRepository = static::getContainer()->get(FarmExtensionRepository::class);
+        $this->farmTransactionRepository = static::getContainer()->get(FarmTransactionRepository::class);
     }
 
     public function test_register(): void
@@ -34,6 +37,7 @@ class RegisterApiTest extends ApiTestCase
         $this->assertCount(0, $this->accessTokenRepository->findAll());
         $this->assertCount(5, $this->extensionRepository->findAll());
         $this->assertCount(0, $this->farmExtensionRepository->findAll());
+        $this->assertCount(0, $this->farmTransactionRepository->findAll());
 
         static::createClient()->request('POST', '/api/farmer/register', [
             'json' => [
@@ -57,7 +61,7 @@ class RegisterApiTest extends ApiTestCase
                     "@type" => "Farm",
                     "energy" => 0,
                     "extension_count" => 4,
-                    "money" => 0,
+                    "money" => 100000,
                     "name" => "Howdie-FARM-1",
                     "size" => 0,
                     "water" => 0
@@ -68,6 +72,7 @@ class RegisterApiTest extends ApiTestCase
         $this->assertCount(1, $this->accessTokenRepository->findAll());
         $this->assertCount(5, $this->extensionRepository->findAll());
         $this->assertCount(4, $this->farmExtensionRepository->findAll());
+        $this->assertCount(1, $this->farmTransactionRepository->findAll());
     }
 
     public function test_register_with_too_long_username(): void

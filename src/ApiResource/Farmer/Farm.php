@@ -19,7 +19,7 @@ class Farm
     public string $name;
     public int $extensionCount;
     public int $size = 0;
-    public float $money = 0.0;
+    public int $money = 0;
     public float $energy = 0.0; // percent
     public float $water = 0.0; // percent
 }

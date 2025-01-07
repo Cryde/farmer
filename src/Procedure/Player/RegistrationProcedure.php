@@ -13,6 +13,7 @@ use App\Contract\Generator\ShortIdGeneratorInterface;
 use App\Entity\Farm\Farm;
 use App\Enum\Extension\ExtensionType;
 use App\Model\Api\Register\Register as RegisterApi;
+use App\Procedure\Transaction\Farm\TransactionProcedure;
 use App\Repository\Extension\ExtensionRepository;
 use App\Service\Generator\FarmNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,9 @@ readonly class RegistrationProcedure
         private FarmNameGenerator $farmNameGenerator,
         private ExtensionRepository $extensionRepository,
         private FarmExtensionEntityBuilder $farmExtensionEntityBuilder,
-        private ShortIdGeneratorInterface $shortIdGenerator
+        private ShortIdGeneratorInterface $shortIdGenerator,
+        private TransactionProcedure $transactionProcedure
+
     ) {
     }
 
@@ -48,7 +51,12 @@ readonly class RegistrationProcedure
         $farm = $this->farmEntityBuilder->build($farmer, $this->farmNameGenerator->generateFarmName($registerModel->username));
         $this->entityManager->persist($farm);
 
+        // farm extensions
         $this->addBasicFarmExtension($farm);
+
+        // farm transactions
+        $initialTransaction = $this->transactionProcedure->createInitialTransaction($farm, '100000');
+        $this->entityManager->persist($initialTransaction);
 
         $this->entityManager->flush();
 

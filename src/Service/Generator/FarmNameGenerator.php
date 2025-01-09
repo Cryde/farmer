@@ -14,7 +14,7 @@ readonly class FarmNameGenerator
     {
         $i = 1;
         do {
-            $farmName = $farmerName . '-FARM-' . $i;
+            $farmName = $farmerName . '-FARM-' . ($i++);
         } while ($this->farmRepository->findOneBy(['name' => $farmName]) !== null);
 
         return $farmName;

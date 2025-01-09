@@ -20,14 +20,16 @@ class FarmGetTest extends ApiTestCase
     {
         ExtensionsStory::load();
         $user = FarmerFactory::createOne(['username' => 'user_login']);
+        $user2 = FarmerFactory::createOne(['username' => 'user_login_2']);
         $token = AccessTokenFactory::createOne(['relatedFarmer' => $user]);
 
         $farm = FarmFactory::createOne(['relatedFarmer' => $user, 'name' => 'FARM-1']);
+        $farm2 = FarmFactory::createOne(['relatedFarmer' => $user2, 'name' => 'FARM-2']);
         FarmExtensionFactory::createOne(['extension' => ExtensionsStory::get('warehouse'), 'externalId' => 'ext_id_1', 'farm' => $farm, 'level' => 1,]);
         FarmExtensionFactory::createOne(['extension' => ExtensionsStory::get('plot'), 'externalId' => 'ext_id_2', 'farm' => $farm, 'level' => 1,]);
         FarmExtensionFactory::createOne(['extension' => ExtensionsStory::get('solarpanel'), 'externalId' => 'ext_id_3', 'farm' => $farm, 'level' => 1,]);
         FarmExtensionFactory::createOne(['extension' => ExtensionsStory::get('robotcharger'), 'externalId' => 'ext_id_4', 'farm' => $farm, 'level' => 1,]);
-
+        FarmExtensionFactory::createOne(['extension' => ExtensionsStory::get('robotcharger'), 'externalId' => 'ext_id_5', 'farm' => $farm2, 'level' => 1,]);
 
         static::createClient()->request('GET', '/api/farm/FARM-1', [
             'auth_bearer' => $token->getToken(),

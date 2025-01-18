@@ -4,28 +4,28 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apk add --update --no-cache \
     libpq-dev \
-    bzip2-dev  \
     libzip-dev \
-    icu-dev  \
-    icu-data-full \
-    build-base  \
-    autoconf  \
-    libxml2-dev  \
-    libssh2-dev
+    shadow \
+    autoconf \
+    build-base
 
-RUN apk add --update --no-cache git bash vim
+RUN docker-php-ext-install \
+    opcache  \
+    bcmath  \
+    zip  \
+    pdo  \
+    pgsql  \
+    pdo_pgsql
 
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install opcache intl
+RUN pecl install pcov  && docker-php-ext-enable pcov
 
-RUN docker-php-ext-install opcache bcmath bz2 zip pdo pgsql pdo_pgsql
+ARG USER=www-data
+ARG UID=1000
 
-RUN apk add --update --no-cache shadow
-RUN usermod -u 1000 www-data
-RUN groupmod -g 1000 www-data
+RUN usermod -u ${UID} ${USER}
+RUN groupmod -g ${UID} ${USER}
 
-COPY --chown=www-data:www-data . /var/www/stellar
+USER ${USER}
 
+COPY . /var/www/stellar
 WORKDIR /var/www
-
-USER www-data

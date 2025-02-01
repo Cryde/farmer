@@ -24,8 +24,10 @@ class GameInitCommand extends Command
     {
         // EXTENSIONS
         $this->initializationProcedure->addBaseExtensions();
+        // SEEDS
+        $this->initializationProcedure->addSeeds();
 
-        // todo : SEEDS, ROBOTS
+        // todo : ROBOTS
 
         return Command::SUCCESS;
     }

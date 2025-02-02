@@ -16,16 +16,16 @@ class Seed
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 255, unique: true)]
-    private ?string $externalId = null;
+    private string $externalId;
 
     #[ORM\Column]
-    private ?int $baseCostPrice = null;
+    private int $baseCostPrice;
 
     #[ORM\Column]
-    private ?int $baseSalePrice = null;
+    private int $baseSalePrice;
 
     #[ORM\Column(length: 10)]
     private string $currencyCode;
@@ -35,7 +35,7 @@ class Seed
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -47,7 +47,7 @@ class Seed
         return $this;
     }
 
-    public function getExternalId(): ?string
+    public function getExternalId(): string
     {
         return $this->externalId;
     }
@@ -66,7 +66,7 @@ class Seed
 
     public function setBaseCostPrice(Money $baseCostPrice): static
     {
-        $this->baseCostPrice = (string) $baseCostPrice->getMinorAmount()->toInt();
+        $this->baseCostPrice = $baseCostPrice->getMinorAmount()->toInt();
         $this->currencyCode = $baseCostPrice->getCurrency()->getCurrencyCode();
 
         return $this;
@@ -79,13 +79,13 @@ class Seed
 
     public function setBaseSalePrice(Money $baseSalePrice): static
     {
-        $this->baseSalePrice = (string) $baseSalePrice->getMinorAmount()->toInt();
+        $this->baseSalePrice = $baseSalePrice->getMinorAmount()->toInt();
         $this->currencyCode = $baseSalePrice->getCurrency()->getCurrencyCode();
 
         return $this;
     }
 
-    public function getCurrencyCode(): ?string
+    public function getCurrencyCode(): string
     {
         return $this->currencyCode;
     }

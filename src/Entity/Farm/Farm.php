@@ -47,12 +47,12 @@ class Farm
         return $this;
     }
 
-    public function getRelatedFarmer(): ?Farmer
+    public function getRelatedFarmer(): Farmer
     {
         return $this->relatedFarmer;
     }
 
-    public function setRelatedFarmer(?Farmer $relatedFarmer): static
+    public function setRelatedFarmer(Farmer $relatedFarmer): static
     {
         $this->relatedFarmer = $relatedFarmer;
 

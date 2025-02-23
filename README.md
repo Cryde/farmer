@@ -6,10 +6,17 @@ Farmer API game
 
 [![codecov](https://codecov.io/gh/Cryde/farmer/graph/badge.svg?token=G5IQXFBPV3)](https://codecov.io/gh/Cryde/farmer)
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development.
+
+This project use:
+- PHP 8.4
+- FrankenPHP
+- Symfony 7.2
+- PostgreSQL 17.1
 
 ### Installing
-
-#### Setup local https
 
 #### Setup Docker
 

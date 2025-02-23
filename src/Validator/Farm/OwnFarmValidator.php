@@ -2,6 +2,8 @@
 
 namespace App\Validator\Farm;
 
+use App\Entity\Farm\Farm;
+use App\Entity\Player\Farmer;
 use App\Repository\Farm\FarmRepository;
 use App\Service\Farm\FarmHelper;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,7 +24,9 @@ class OwnFarmValidator extends ConstraintValidator
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
+        /** @var Farmer $farmer */
         $farmer = $this->security->getUser();
+        /** @var Farm $farm */
         $farm = $this->farmRepository->findOneBy(['name' => $value->farm->name]);
         if (!$this->farmHelper->isFarmerFarmOwner($farmer, $farm)) {
             $this->context->buildViolation($constraint->message)

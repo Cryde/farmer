@@ -17,17 +17,17 @@ class FarmSeed
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Farm $relatedFarm = null;
+    private Farm $relatedFarm;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Seed $seed = null;
+    private Seed $seed;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private int $quantity;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDatetime = null;
+    private \DateTimeInterface $creationDatetime;
 
     public function __construct()
     {

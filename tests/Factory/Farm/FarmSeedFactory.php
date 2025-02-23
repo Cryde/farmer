@@ -15,7 +15,7 @@ final class FarmSeedFactory extends PersistentProxyObjectFactory
         return FarmSeed::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'creationDatetime' => self::faker()->dateTime(),
